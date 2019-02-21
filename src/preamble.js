@@ -41,9 +41,9 @@ function lpad(str, length, padstr) {
 
 // var $ = Backbone.$;
 //
-// var Backgrid = {
+var Backgrid = {
 
-var Backgrid = root.Backgrid = {
+// var Backgrid = root.Backgrid = {
 
   Extension: {},
 
