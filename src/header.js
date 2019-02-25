@@ -141,7 +141,7 @@ var HeaderCell = Backgrid.HeaderCell = Backgrid.View.extend({
     this.el.appendChild(label);
 
     var classes = this.el.classList;
-    classes.add(column.get("name"));
+    if (column.get("name")) classes.add(column.get("name"));
 
     var direction = column.get("direction");
     if (direction) classes.add(direction);
