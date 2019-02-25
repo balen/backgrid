@@ -21,7 +21,7 @@ var HeaderCell = Backgrid.HeaderCell = Backgrid.View.extend({
 
   /** @property */
   events: {
-    "click button": "onClick"
+    "click a": "onClick"
   },
 
   /**

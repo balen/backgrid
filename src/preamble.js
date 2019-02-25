@@ -1,8 +1,8 @@
 /*
   backgrid
-  http://github.com/cloudflare/backgrid
+  http://github.com/wyuenho/backgrid
 
-  Copyright (c) 2013-present Cloudflare, Inc. and contributors
+  Copyright (c) 2013 Jimmy Yuen Ho Wong and contributors
   Licensed under the MIT license.
 */
 
@@ -39,11 +39,10 @@ function lpad(str, length, padstr) {
   return padding + str;
 }
 
-// var $ = Backbone.$;
-//
-var Backgrid = {
+var $ = Backbone.$;
 
 // var Backgrid = root.Backgrid = {
+var Backgrid = {
 
   Extension: {},
 
@@ -193,20 +192,21 @@ var delegateEventSplitter = /^(\S+)\s*(.*)$/;
 // with whitespace.
 var paddedLt = /^\s*</;
 
+// var View = Backgrid.View = Backbone.View;
+// TODO - need empty and other functions
 var View = Backgrid.View = Backbone.View.extend({
 
-  constructor: function () {
+  preinitialize: function() {
     this._domEvents = [];
-    View.__super__.constructor.apply(this, arguments);
   },
 
-  preRender: function () {
-    return this;
-  },
-
-  postRender: function () {
-    return this;
-  },
+  // preRender: function () {
+  //   return this;
+  // },
+  //
+  // postRender: function () {
+  //   return this;
+  // },
 
   show: function () {
     this.el.style.display = this._previousDisplay;
@@ -228,9 +228,9 @@ var View = Backgrid.View = Backbone.View.extend({
   // Delegate to `querySelectorAll` for element lookup, scoped to DOM elements
   // within the current view. This should be preferred to global lookups where
   // possible.
-  $: function(selector) {
-    return this.el.querySelectorAll(selector);
-  },
+  // $: function(selector) {
+  //   return this.el.querySelectorAll(selector);
+  // },
 
   // Remove this view by taking the element out of the DOM, remove all the DOM
   // event listeners attached to it, and remove any applicable Backbone.Events
@@ -249,6 +249,7 @@ var View = Backgrid.View = Backbone.View.extend({
   // change this view's element to it. Otherwise, assume it is a DOM element
   // and change this view's element to it.
   setElement: function(element, delegate) {
+    delegate = (typeof delegate !== 'undefined') ?  delegate : true;
     if (this.el) this.undelegateEvents();
     if (typeof element == 'string') {
       if (paddedLt.test(element)) {
@@ -363,7 +364,7 @@ var View = Backgrid.View = Backbone.View.extend({
       for (var k in attrs) {
         el.setAttribute(k, attrs[k]);
       }
-      this.setElement(el, false);
+      this.setElement(el, true);
     } else {
       this.setElement(_.result(this, 'el'), false);
     }

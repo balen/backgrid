@@ -128,6 +128,10 @@ var InputCellEditor = Backgrid.InputCellEditor = CellEditor.extend({
     var command = new Command(e);
     var blurred = e.type === "blur";
 
+    // console.log('===> SAVE OR CANCEL command', command);
+    // console.log('===> SAVE OR CANCEL command', command.keyCode);
+    // console.log('===> SAVE OR CANCEL command', command.moveRight());
+
     if (command.moveUp() || command.moveDown() || command.moveLeft() ||
         command.moveRight() || command.save() || blurred) {
 
@@ -150,6 +154,37 @@ var InputCellEditor = Backgrid.InputCellEditor = CellEditor.extend({
       // undo
       e.stopPropagation();
     }
+    // var formatter = this.formatter;
+    // var model = this.model;
+    // var column = this.column;
+    //
+    // var command = new Command(e);
+    // console.log('===> SAVE OR CANCEL command', command);
+    // var blurred = e.type === "blur";
+    // if (command.moveUp() || command.moveDown() || command.moveLeft() ||
+    //     command.moveRight() || command.save() || blurred) {
+    //   console.log('===> EVENT');
+    //
+    //   var val = this.el.value;
+    //   var newValue = formatter.toRaw(val, model);
+    //   if (_.isUndefined(newValue)) {
+    //     model.trigger("backgrid:error", model, column, val);
+    //   }
+    //   else {
+    //     model.set(column.get("name"), newValue);
+    //     model.trigger("backgrid:edited", model, column, command);
+    //   }
+    //
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    // }
+    // // esc
+    // else if (command.cancel()) {
+    //   console.log('===> CANCEL EVENT');
+    //   model.trigger("backgrid:edited", model, column, command);
+    //   // undo
+    //   e.stopPropagation();
+    // }
   },
 
   postRender: function (model, column) {
@@ -238,6 +273,7 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
 
     this.editor = Backgrid.resolveNameToClass(this.editor, "CellEditor");
     this.listenTo(model, "change:" + column.get("name"), function () {
+      // console.log('--> MODEL CHANGED', classes.contains("editor"));
       if (!classes.contains("editor")) this.render();
     });
 
@@ -248,8 +284,11 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
                     var changed = column.changedAttributes();
                     for (var key in changed) {
                       if (changed.hasOwnProperty(key)) {
-                        if (changed[key]) classes.add(key);
-                        else classes.remove(key);
+                        if (changed[key]) {
+                          classes.add(key);
+                        } else {
+                          classes.remove(key);
+                        }
                       }
                     }
                   });
@@ -260,10 +299,13 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
   updateStateClassesMaybe: function () {
     var model = this.model;
     var column = this.column;
-    var $el = this.$el;
+    var classes = this.el.classList;
     // $el.toggleClass("editable", Backgrid.callByNeed(column.editable(), column, model));
     // $el.toggleClass("sortable", Backgrid.callByNeed(column.sortable(), column, model));
     // $el.toggleClass("renderable", Backgrid.callByNeed(column.renderable(), column, model));
+    classes.remove("editable");
+    classes.remove("sortable");
+    classes.remove("renderable");
     if (Backgrid.callByNeed(column.editable(), column, model)) classes.add("editable");
     if (Backgrid.callByNeed(column.sortable(), column, model)) classes.add("sortable");
     if (Backgrid.callByNeed(column.renderable(), column, model)) classes.add("renderable");
@@ -274,10 +316,16 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
      model's raw value for this cell's column.
   */
   render: function () {
+    // console.log('--> RENDER CELL');
+    // var model = this.model;
+    // this.el.setAttribute("value", this.formatter.fromRaw(model.get(this.column.get("name")), model));
+    // this.updateStateClassesMaybe();
+    // return this;
     this.empty();
     var model = this.model;
     this.el.appendChild(document.createTextNode(
       this.formatter.fromRaw(model.get(this.column.get("name")), model)));
+    this.updateStateClassesMaybe();
     this.delegateEvents();
     return this;
   },

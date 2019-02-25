@@ -177,6 +177,15 @@ var Grid = Backgrid.Grid = Backgrid.View.extend({
   render: function () {
     this.empty();
 
+    if (this.caption) {
+      var node = document.createElement('caption');
+      var text = document.createTextNode(this.caption);
+      var caption = node.appendChild(text);
+      this.el.appendChild(node);
+      // this.el.appendChild(this.caption.render().el);
+        // $("<caption>").text(this.caption));
+    }
+
     if (this.header) {
       this.el.appendChild(this.header.render().el);
     }

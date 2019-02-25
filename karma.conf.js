@@ -19,6 +19,8 @@ module.exports = function(config) {
       'node_modules/underscore/underscore.js',
       'node_modules/backbone/backbone.js',
       'node_modules/backbone.paginator/lib/backbone.paginator.js',
+      'test/vendor/js/classList.js',
+      'test/vendor/js/synthetic-dom-events.js',
       'lib/backgrid.js',
       'test/preamble.js',
       'test/column.js',
@@ -84,5 +86,6 @@ module.exports = function(config) {
     concurrency: Infinity,
 
     browserNoActivityTimeout: 30000
+
   })
 }
