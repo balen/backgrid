@@ -46,6 +46,7 @@ var CellEditor = Backgrid.CellEditor = Backgrid.View.extend({
     if (column == null || column.get("name") == this.column.get("name")) {
       this.el.focus();
     }
+    this.delegateEvents();
     return this;
   }
 
@@ -100,6 +101,7 @@ var InputCellEditor = Backgrid.InputCellEditor = CellEditor.extend({
   render: function () {
     var model = this.model;
     this.el.setAttribute("value", this.formatter.fromRaw(model.get(this.column.get("name")), model));
+    this.delegateEvents();
     return this;
   },
 

@@ -364,7 +364,7 @@ var View = Backgrid.View = Backbone.View.extend({
       for (var k in attrs) {
         el.setAttribute(k, attrs[k]);
       }
-      this.setElement(el, true);
+      this.setElement(el, false);
     } else {
       this.setElement(_.result(this, 'el'), false);
     }
