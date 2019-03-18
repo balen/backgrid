@@ -98,6 +98,7 @@ var Grid = Backgrid.Grid = Backgrid.View.extend({
     // must construct body first so it listens to backgrid:sort first
     this.body = options.body || this.body;
     this.body = new this.body(filteredOptions);
+    this.body.grid = this;
 
     this.header = options.header || this.header;
     if (this.header) {
