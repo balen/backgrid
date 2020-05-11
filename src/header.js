@@ -21,7 +21,7 @@ var HeaderCell = Backgrid.HeaderCell = Backgrid.View.extend({
 
   /** @property */
   events: {
-    "click a": "onClick"
+    "click button": "onClick"
   },
 
   /**
@@ -43,6 +43,10 @@ var HeaderCell = Backgrid.HeaderCell = Backgrid.View.extend({
     var el = this.el;
     var classes = el.classList;
 
+    this.width = this.column.get("cell_width") ? this.column.get("cell_width") : 150;
+    this.max_width = this.column.get("max_width") ? this.column.get("max_width") : this.width;
+    this.min_width = this.column.get("min_width") ? this.column.get("min_width") : this.width;
+
     this.listenTo(column, "change:editable change:sortable change:renderable",
                   function (column) {
                     var changed = column.changedAttributes();
@@ -61,6 +65,22 @@ var HeaderCell = Backgrid.HeaderCell = Backgrid.View.extend({
     if (Backgrid.callByNeed(column.renderable(), column, collection)) classes.add("renderable");
 
     this.listenTo(collection.fullCollection || collection, "backgrid:sorted", this.removeCellDirection);
+  },
+
+  add_styles: function() {
+    if (this.width) {
+      this.el.style.width = this.width + 'px';
+    }
+    if (this.min_width) {
+      this.el.style.minWidth = this.min_width  + 'px';
+    }
+    if (this.max_width) {
+      this.el.style.maxWidth = this.max_width  + 'px';
+    }
+  },
+
+  set_value : function() {
+    // no-op
   },
 
   /**
@@ -146,6 +166,7 @@ var HeaderCell = Backgrid.HeaderCell = Backgrid.View.extend({
     var direction = column.get("direction");
     if (direction) classes.add(direction);
 
+    this.add_styles();
     this.delegateEvents();
     return this;
   }
@@ -216,6 +237,7 @@ var Header = Backgrid.Header = Backgrid.View.extend({
     }
 
     this.row = new Backgrid.HeaderRow({
+      headerCell: options.headerCell,
       columns: this.columns,
       collection: this.collection
     });

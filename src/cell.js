@@ -258,6 +258,7 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
   */
   initialize: function (options) {
     this.column = options.column;
+    this.height = options.height;
     if (!(this.column instanceof Column)) {
       this.column = new Column(this.column);
     }
@@ -272,6 +273,10 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
     }
 
     this.formatter = formatter;
+
+    this.width = this.column.get("cell_width") ? this.column.get("cell_width") : 150;
+    this.max_width = this.column.get("max_width") ? this.column.get("max_width") : this.width;
+    this.min_width = this.column.get("min_width") ? this.column.get("min_width") : this.width;
 
     this.editor = Backgrid.resolveNameToClass(this.editor, "CellEditor");
     this.listenTo(model, "change:" + column.get("name"), function () {
@@ -296,6 +301,18 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
                   });
 
     this.updateStateClassesMaybe();
+  },
+
+  add_styles: function() {
+    if (this.width) {
+      this.el.style.width = this.width + 'px';
+    }
+    if (this.min_width) {
+      this.el.style.minWidth = this.min_width  + 'px';
+    }
+    if (this.max_width) {
+      this.el.style.maxWidth = this.max_width  + 'px';
+    }
   },
 
   updateStateClassesMaybe: function () {
@@ -327,6 +344,7 @@ var Cell = Backgrid.Cell = Backgrid.View.extend({
     var model = this.model;
     this.el.appendChild(document.createTextNode(
       this.formatter.fromRaw(model.get(this.column.get("name")), model)));
+    this.add_styles();
     this.updateStateClassesMaybe();
     this.delegateEvents();
     return this;
@@ -474,6 +492,7 @@ var UriCell = Backgrid.UriCell = Cell.extend({
     a.target = this.target;
     a.appendChild(document.createTextNode(formattedValue));
     this.el.appendChild(a);
+    this.add_styles();
     this.delegateEvents();
     return this;
   }
@@ -506,6 +525,7 @@ var EmailCell = Backgrid.EmailCell = StringCell.extend({
     a.title = formattedValue;
     a.appendChild(document.createTextNode(formattedValue));
     this.el.appendChild(a);
+    this.add_styles();
     this.delegateEvents();
     return this;
   }
@@ -829,6 +849,7 @@ var BooleanCell = Backgrid.BooleanCell = Cell.extend({
     input.checked = this.formatter.fromRaw(model.get(this.column.get("name")), model);
     input.disabled = !editable;
     this.el.appendChild(input);
+    this.add_styles();
     this.delegateEvents();
     return this;
   }
@@ -933,6 +954,7 @@ var SelectCellEditor = Backgrid.SelectCellEditor = CellEditor.extend({
       this.el.appendChild(children[i]);
     }
 
+    this.add_styles();
     this.delegateEvents();
 
     return this;
@@ -1110,6 +1132,7 @@ var SelectCell = Backgrid.SelectCell = Cell.extend({
       throw ex;
     }
 
+    this.add_styles();
     this.delegateEvents();
 
     return this;

@@ -40,10 +40,12 @@ var Body = Backgrid.Body = Backgrid.View.extend({
     }
 
     this.row = options.row || this.row || Row;
+    var row_height = this.row_height = options.row_height;
     this.rows = this.collection.map(function (model) {
       var row = new this.row({
         columns: this.columns,
-        model: model
+        model: model,
+        height: row_height
       });
 
       return row;
@@ -108,9 +110,11 @@ var Body = Backgrid.Body = Backgrid.View.extend({
       return;
     }
 
+    var row_height = this.row_height;
     var row = new this.row({
       columns: this.columns,
-      model: model
+      model: model,
+      height: row_height
     });
 
     var index = collection.indexOf(model);
@@ -201,10 +205,12 @@ var Body = Backgrid.Body = Backgrid.View.extend({
       }
     }, 0);
 
+    var row_height = this.row_height;
     this.rows = this.collection.map(function (model) {
       var row = new this.row({
         columns: this.columns,
-        model: model
+        model: model,
+        height: row_height
       });
 
       return row;

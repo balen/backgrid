@@ -40,6 +40,9 @@ var Row = Backgrid.Row = Backgrid.View.extend({
       cells.push(this.makeCell(columns.at(i), options));
     }
 
+    var height = options.height || 50;
+    this.el.style.height = height.toString() + 'px';
+
     this.listenTo(columns, "add", function (column, columns) {
       var i = columns.indexOf(column);
       var cell = this.makeCell(column, options);
@@ -74,10 +77,11 @@ var Row = Backgrid.Row = Backgrid.View.extend({
 
      @return {Backgrid.Cell}
   */
-  makeCell: function (column) {
+  makeCell: function (column, options) {
     return new (column.get("cell"))({
       column: column,
-      model: this.model
+      model: this.model,
+      height: options.height
     });
   },
 
